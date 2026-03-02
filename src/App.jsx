@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import logoVovinam from "./assets/vovinam_logo.png";
+import qrSupport from "./assets/gopquy.png";
 import questions from "../assets/question.json";
 
 ChartJS.register(
@@ -572,6 +573,7 @@ function App() {
               { key: "learn", label: "Học" },
               { key: "play", label: "Chơi" },
               { key: "progress", label: "Tiến trình" },
+              { key: "support", label: "Ủng hộ" },
             ].map((item) => (
               <button
                 key={item.key}
@@ -625,64 +627,119 @@ function App() {
         </section>
 
         {tab === "home" && (
-          <section className="row g-4 align-items-stretch">
-            <div className="col-lg-7">
-              <div className="card h-100 shadow-sm">
-                <div className="card-body p-4">
-                  <h2 className="mb-3">
-                    Học Vovinam - Việt Võ Đạo theo kiểu vừa học vừa chơi
-                  </h2>
-                  <p>
-                    Vovinam là tên gọi quốc tế hóa của Võ Việt Nam, gồm cả Việt
-                    võ thuật và Việt võ đạo. Trang này giúp bạn thuộc nhanh 10
-                    câu hỏi trọng tâm bằng flashcard, quiz giới hạn thời gian và
-                    trò chơi tương tác.
-                  </p>
-                  <div className="d-flex flex-wrap gap-2 mt-4 hero-actions">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => setTab("learn")}
-                    >
-                      Bắt đầu học
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary"
-                      onClick={() => setTab("play")}
-                    >
-                      Thử thách bản thân
-                    </button>
-                  </div>
-                  <div className="alert alert-info mt-4 mb-0">
-                    Bí kíp đã mở khóa: <strong>{unlockedTip}</strong>
+          <>
+            <section className="row g-4 align-items-stretch">
+              <div className="col-lg-7">
+                <div className="card h-100 shadow-sm">
+                  <div className="card-body p-4">
+                    <h2 className="mb-3">
+                      Học Vovinam - Việt Võ Đạo theo kiểu vừa học vừa chơi
+                    </h2>
+                    <p>
+                      Vovinam là tên gọi quốc tế hóa của Võ Việt Nam, gồm cả
+                      Việt võ thuật và Việt võ đạo. Trang này giúp bạn thuộc
+                      nhanh 10 câu hỏi trọng tâm bằng flashcard, quiz giới hạn
+                      thời gian và trò chơi tương tác.
+                    </p>
+                    <div className="d-flex flex-wrap gap-2 mt-4 hero-actions">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => setTab("learn")}
+                      >
+                        Bắt đầu học
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary"
+                        onClick={() => setTab("play")}
+                      >
+                        Thử thách bản thân
+                      </button>
+                    </div>
+                    <div className="alert alert-info mt-4 mb-0">
+                      Bí kíp đã mở khóa: <strong>{unlockedTip}</strong>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-5">
-              <div className="card h-100 shadow-sm">
-                <img
-                  src={logoVovinam}
-                  className="card-img-top hero-image"
-                  alt="Biểu tượng Vovinam"
-                />
-                <div className="card-body">
-                  <p className="mb-1 fw-semibold">Thử thách hằng ngày</p>
-                  <p className="small text-muted mb-3">
-                    5 câu ngẫu nhiên mỗi ngày, hoàn thành để nhận +20 điểm.
-                  </p>
-                  <button
-                    type="button"
-                    className="btn btn-success btn-sm"
-                    onClick={() => startQuiz(true)}
-                  >
-                    Bắt đầu Daily Challenge
-                  </button>
+              <div className="col-lg-5">
+                <div className="card h-100 shadow-sm">
+                  <img
+                    src={logoVovinam}
+                    className="card-img-top hero-image"
+                    alt="Biểu tượng Vovinam"
+                  />
+                  <div className="card-body">
+                    <p className="mb-1 fw-semibold">Thử thách hằng ngày</p>
+                    <p className="small text-muted mb-3">
+                      5 câu ngẫu nhiên mỗi ngày, hoàn thành để nhận +20 điểm.
+                    </p>
+                    <button
+                      type="button"
+                      className="btn btn-success btn-sm"
+                      onClick={() => startQuiz(true)}
+                    >
+                      Bắt đầu Daily Challenge
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+
+            <section className="row g-4 mt-1">
+              <div className="col-lg-6">
+                <div className="card shadow-sm h-100">
+                  <div className="card-body">
+                    <h4 className="mb-3">Hướng dẫn học nhanh</h4>
+                    <ol className="mb-0 guide-list">
+                      <li>
+                        Vào tab Học, lật thẻ để đọc câu hỏi và tự trả lời trước
+                        khi xem đáp án.
+                      </li>
+                      <li>
+                        Dùng nút Đã thuộc hoặc Chưa thuộc để hệ thống biết câu
+                        nào cần lặp lại.
+                      </li>
+                      <li>
+                        Sau 1 vòng flashcard, chuyển sang tab Chơi để kiểm tra
+                        tốc độ ghi nhớ.
+                      </li>
+                      <li>
+                        Cuối ngày, xem tab Tiến trình để biết phần còn yếu và ôn
+                        bù có trọng tâm.
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <div className="card shadow-sm h-100">
+                  <div className="card-body">
+                    <h4 className="mb-3">Hướng dẫn sử dụng tính năng</h4>
+                    <ul className="mb-0 guide-list">
+                      <li>
+                        <strong>Flashcard:</strong> Click vào thẻ để lật, bật
+                        chế độ chỉ ôn câu chưa thuộc khi cần.
+                      </li>
+                      <li>
+                        <strong>Quiz:</strong> Mỗi câu 30 giây, đúng +10, sai
+                        -5, đạt 80% để mở huy hiệu.
+                      </li>
+                      <li>
+                        <strong>Mini games:</strong> Matching, Điền khuyết, Vòng
+                        quay giúp ôn theo kiểu trò chơi.
+                      </li>
+                      <li>
+                        <strong>Daily challenge:</strong> Mỗi ngày 5 câu ngẫu
+                        nhiên, hoàn thành nhận điểm thưởng.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </>
         )}
 
         {tab === "learn" && currentFlashcard && (
@@ -765,6 +822,20 @@ function App() {
                 <div className="card-body">
                   <h5>Mẹo nhớ nhanh</h5>
                   <p className="mb-0">{unlockedTip}</p>
+                </div>
+              </div>
+              <div className="card shadow-sm mb-3">
+                <div className="card-body">
+                  <h5>Hướng dẫn Flashcard</h5>
+                  <ul className="mb-0 guide-list">
+                    <li>Lật thẻ rồi tự nhẩm đáp án trước khi đọc mặt sau.</li>
+                    <li>
+                      Đánh dấu Chưa thuộc cho câu khó để được lặp lại nhiều hơn.
+                    </li>
+                    <li>
+                      Ôn theo cụm 3-5 câu và nghỉ ngắn 1 phút để nhớ lâu hơn.
+                    </li>
+                  </ul>
                 </div>
               </div>
               <div className="card shadow-sm">
@@ -1084,6 +1155,34 @@ function App() {
                     >
                       Reset tiến trình
                     </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {tab === "support" && (
+          <section className="row justify-content-center">
+            <div className="col-lg-8">
+              <div className="card shadow-sm">
+                <div className="card-body p-4 text-center">
+                  <h3 className="mb-3">Ủng hộ tác giả</h3>
+                  <p className="text-muted mb-4 support-subtitle">
+                    Nếu bạn thấy dự án hữu ích, có thể quét mã QR bên dưới để
+                    góp quỹ nuôi Nguyên. Mọi ủng hộ đều là động lực để phát
+                    triển thêm nhiều nội dung học Vovinam miễn phí.
+                  </p>
+                  <div className="support-qr-wrap mx-auto mb-3">
+                    <img
+                      src={qrSupport}
+                      alt="Mã QR ủng hộ tác giả"
+                      className="img-fluid support-qr"
+                    />
+                  </div>
+                  <div className="alert alert-warning mb-0">
+                    Mở camera hoặc ứng dụng ngân hàng để quét mã QR và chuyển
+                    khoản nhanh.
                   </div>
                 </div>
               </div>

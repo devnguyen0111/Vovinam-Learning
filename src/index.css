@@ -68,6 +68,33 @@ body {
   white-space: pre-line;
 }
 
+.guide-list {
+  padding-left: 1.15rem;
+  line-height: 1.55;
+}
+
+.guide-list li + li {
+  margin-top: 0.4rem;
+}
+
+.support-subtitle {
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.support-qr-wrap {
+  max-width: 340px;
+  border: 1px solid #e2e8f3;
+  border-radius: 0.85rem;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.support-qr {
+  border-radius: 0.5rem;
+}
+
 @media (max-width: 576px) {
   .main-content {
     padding-top: 1rem !important;
@@ -87,7 +114,7 @@ body {
   .mobile-nav-tabs {
     width: 100%;
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .mobile-nav-tabs .btn {
@@ -123,5 +150,13 @@ body {
 
   .chart-wrap {
     min-height: 220px;
+  }
+
+  .guide-list {
+    font-size: 0.95rem;
+  }
+
+  .support-subtitle {
+    font-size: 0.95rem;
   }
 }
