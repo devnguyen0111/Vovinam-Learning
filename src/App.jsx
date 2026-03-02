@@ -30,86 +30,146 @@ const TIPS = [
   "Câu lịch sử chính nằm ở nhóm 1-4, ôn kỹ để lên cấp Hoàng đai.",
 ];
 
+const QUESTION_TIPS = {
+  1: "Nhớ mốc 8/4/1912 và 4/4/1960 theo cặp số 8-4 / 4-4 để thuộc nhanh tiểu sử Sáng tổ.",
+  2: "Ghi nhớ chuỗi 38-39: hoàn thành nghiên cứu 1938, biểu diễn lớn đầu tiên 1939 tại Nhà hát Lớn Hà Nội.",
+  3: "Tách nghĩa thành 2 tầng: Vovinam = Võ Việt Nam (gốc), Việt võ đạo = phần đạo (hoa trái).",
+  4: "Mẹo mốc thời gian: Lê Sáng sinh 1920, mất 2010; hai đầu 20 và 10 rất dễ liên tưởng.",
+  5: "Cụm khóa cần thuộc: Bàn tay thép - trái tim từ ái, tức võ mạnh nhưng luôn nhân ái.",
+  6: "Nhớ đai 2 vòng = Âm Dương; vòng trong Nhu, vòng ngoài Cương để tránh nhầm thứ tự.",
+  7: "Kỷ luật Việt võ đạo là tự giác: nhìn gương người trên, tự sửa mình trước khi bị kỷ luật.",
+  8: "Mục đích học gồm 3 trụ: khỏe thân, sáng trí, cao tâm - rồi mới phục vụ tổ quốc.",
+  9: "Nhớ công thức 4 màu theo mức độ ngấm: Xanh (hy vọng) → Vàng (da thịt) → Đỏ (máu huyết) → Trắng (xương tủy).",
+  10: "Mẹo hệ đai: Lam 4 cấp, Hoàng 4 cấp, Hồng 7 cấp, Bạch 1 cấp lãnh đạo cao nhất.",
+};
+
+const QUESTION_TEXT_BY_ID = Object.fromEntries(
+  questions.map((item) => [item.id, item.question]),
+);
+
+const QUIZ_LEVEL_SETS = {
+  lam: { label: "Lam đai", questionIds: [1, 2, 3], count: 3 },
+  hoang: { label: "Hoàng đai", questionIds: [1, 2, 3, 4, 5, 6], count: 6 },
+  hong: { label: "Hồng đai", questionIds: [1, 2, 3, 4, 5, 6, 7, 8], count: 8 },
+  bach: {
+    label: "Bạch đai",
+    questionIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    count: 10,
+  },
+};
+
 const QUIZ_BANK = [
   {
     id: 1,
-    prompt: "Võ sư Sáng tổ Vovinam là ai?",
-    options: ["Nguyễn Lộc", "Lê Sáng", "Nguyễn Văn Chiếu", "Trần Huy Phong"],
-    correct: "Nguyễn Lộc",
+    prompt: QUESTION_TEXT_BY_ID[1],
+    options: [
+      "Nguyễn Lộc, sinh 1912 tại Sơn Tây và mất 1960 tại Sài Gòn",
+      "Lê Sáng, sinh 1920 tại Hà Nội và mất 2010 tại TP. Hồ Chí Minh",
+      "Nguyễn Văn Chiếu, sinh 1938 tại Hà Nội và mất 2020 tại TP. Hồ Chí Minh",
+      "Trần Huy Phong, sinh 1912 tại Huế và mất 1965 tại Đà Nẵng",
+    ],
+    correct: "Nguyễn Lộc, sinh 1912 tại Sơn Tây và mất 1960 tại Sài Gòn",
   },
   {
     id: 2,
-    prompt: "Nghiên cứu Vovinam được hoàn thành vào năm nào?",
-    options: ["1938", "1939", "1912", "1960"],
-    correct: "1938",
+    prompt: QUESTION_TEXT_BY_ID[2],
+    options: [
+      "Năm 1938; biểu diễn đầu tiên tại Nhà hát Lớn Hà Nội năm 1939",
+      "Năm 1939; biểu diễn đầu tiên tại Huế năm 1940",
+      "Năm 1912; biểu diễn đầu tiên tại Sài Gòn năm 1920",
+      "Năm 1960; biểu diễn đầu tiên tại Đà Nẵng năm 1961",
+    ],
+    correct: "Năm 1938; biểu diễn đầu tiên tại Nhà hát Lớn Hà Nội năm 1939",
   },
   {
     id: 3,
-    prompt: "Vovinam có thể hiểu là gì?",
+    prompt: QUESTION_TEXT_BY_ID[3],
     options: [
-      "Tên quốc tế hóa của Võ Việt Nam",
-      "Một nhánh của Judo",
-      "Môn võ bắt nguồn từ châu Âu",
-      "Tên khác của Taekwondo",
+      "Tên quốc tế hóa của Võ Việt Nam, gồm Việt võ thuật và Việt võ đạo",
+      "Một nhánh của Judo dùng trong thi đấu Olympic",
+      "Môn võ lai giữa Karate và Taekwondo",
+      "Tên gọi khác của quyền Anh Việt Nam",
     ],
-    correct: "Tên quốc tế hóa của Võ Việt Nam",
+    correct:
+      "Tên quốc tế hóa của Võ Việt Nam, gồm Việt võ thuật và Việt võ đạo",
   },
   {
     id: 4,
-    prompt: "Chưởng môn cố Võ sư Lê Sáng mất vào năm nào?",
-    options: ["2010", "2000", "1960", "1920"],
-    correct: "2010",
+    prompt: QUESTION_TEXT_BY_ID[4],
+    options: [
+      "Cố Võ sư Lê Sáng; sinh 1920 tại Hà Nội, mất 2010 tại TP. Hồ Chí Minh",
+      "Cố Võ sư Nguyễn Lộc; sinh 1920 tại Hà Nội, mất 2010 tại TP. Hồ Chí Minh",
+      "Cố Võ sư Trần Huy Phong; sinh 1912 tại Sơn Tây, mất 1960 tại Sài Gòn",
+      "Cố Võ sư Nguyễn Văn Chiếu; sinh 1938 tại Hà Nội, mất 2000 tại Huế",
+    ],
+    correct:
+      "Cố Võ sư Lê Sáng; sinh 1920 tại Hà Nội, mất 2010 tại TP. Hồ Chí Minh",
   },
   {
     id: 5,
-    prompt: "Bàn tay phải đặt lên tim trong nghiêm lễ tượng trưng điều gì?",
+    prompt: QUESTION_TEXT_BY_ID[5],
     options: [
-      "Bàn tay thép trên trái tim từ ái",
-      "Sức mạnh tuyệt đối",
-      "Ưu tiên tấn công",
-      "Chỉ luyện thể lực",
+      "Bàn tay thép đặt lên trái tim từ ái, võ đi cùng đạo",
+      "Luôn ưu tiên tấn công để áp đảo đối thủ",
+      "Chỉ tập trung vào sức mạnh cơ bắp",
+      "Dùng võ để trả thù khi bị xúc phạm",
     ],
-    correct: "Bàn tay thép trên trái tim từ ái",
+    correct: "Bàn tay thép đặt lên trái tim từ ái, võ đi cùng đạo",
   },
   {
     id: 6,
-    prompt: "Thắt đai Vovinam chuẩn gồm mấy vòng?",
-    options: ["2 vòng", "1 vòng", "3 vòng", "4 vòng"],
-    correct: "2 vòng",
+    prompt: QUESTION_TEXT_BY_ID[6],
+    options: [
+      "Thắt 2 vòng: vòng trong Âm (Nhu), vòng ngoài Dương (Cương)",
+      "Thắt 1 vòng để biểu trưng sức mạnh tuyệt đối",
+      "Thắt 3 vòng tượng trưng Tam tài Thiên-Địa-Nhân",
+      "Thắt 4 vòng tượng trưng 4 màu đai",
+    ],
+    correct: "Thắt 2 vòng: vòng trong Âm (Nhu), vòng ngoài Dương (Cương)",
   },
   {
     id: 7,
-    prompt: "Kỷ luật Việt võ đạo được nhấn mạnh là gì?",
+    prompt: QUESTION_TEXT_BY_ID[7],
     options: [
-      "Kỷ luật tự giác",
-      "Kỷ luật cưỡng chế",
-      "Kỷ luật theo cấp bậc cứng",
-      "Kỷ luật chỉ dành cho huấn luyện viên",
+      "Kỷ luật tự giác, người trên làm gương và người dưới tự tôn trọng",
+      "Kỷ luật cưỡng chế tuyệt đối, không cần giải thích",
+      "Kỷ luật theo thành tích thi đấu là chính",
+      "Chỉ huấn luyện viên mới cần giữ kỷ luật",
     ],
-    correct: "Kỷ luật tự giác",
+    correct: "Kỷ luật tự giác, người trên làm gương và người dưới tự tôn trọng",
   },
   {
     id: 8,
-    prompt: "Mục đích học Vovinam vượt ngoài tự vệ là gì?",
+    prompt: QUESTION_TEXT_BY_ID[8],
     options: [
-      "Rèn thân - trí - tâm để phục vụ tổ quốc",
-      "Thi đấu chuyên nghiệp bằng mọi giá",
-      "Tập trung vào biểu diễn",
-      "Chỉ để đạt đai nhanh",
+      "Rèn sức khỏe, trí tuệ, tâm hồn để phục vụ tổ quốc và lẽ phải",
+      "Chỉ để tự vệ trong mọi tình huống",
+      "Mục tiêu chính là đạt đai thật nhanh",
+      "Chủ yếu để biểu diễn và giải trí",
     ],
-    correct: "Rèn thân - trí - tâm để phục vụ tổ quốc",
+    correct: "Rèn sức khỏe, trí tuệ, tâm hồn để phục vụ tổ quốc và lẽ phải",
   },
   {
     id: 9,
-    prompt: "Vovinam có bao nhiêu màu đai chính?",
-    options: ["4", "3", "5", "6"],
-    correct: "4",
+    prompt: QUESTION_TEXT_BY_ID[9],
+    options: [
+      "Có 4 màu đai: Xanh, Vàng, Đỏ, Trắng",
+      "Có 3 màu đai: Xanh, Đỏ, Trắng",
+      "Có 5 màu đai: Đen, Xanh, Vàng, Đỏ, Trắng",
+      "Có 6 màu đai theo hệ võ quốc tế",
+    ],
+    correct: "Có 4 màu đai: Xanh, Vàng, Đỏ, Trắng",
   },
   {
     id: 10,
-    prompt: "Đai nào dành cho người lãnh đạo cao nhất môn phái?",
-    options: ["Bạch đai", "Lam đai", "Hoàng đai", "Hồng đai"],
-    correct: "Bạch đai",
+    prompt: QUESTION_TEXT_BY_ID[10],
+    options: [
+      "Lam đai 4 cấp, Hoàng đai 4 cấp, Hồng đai 7 cấp, Bạch đai 1 cấp",
+      "Lam đai 3 cấp, Hoàng đai 5 cấp, Hồng đai 2 cấp, Bạch đai 1 cấp",
+      "Chỉ có Lam đai và Bạch đai",
+      "Hệ đai không có quy định cấp bậc",
+    ],
+    correct: "Lam đai 4 cấp, Hoàng đai 4 cấp, Hồng đai 7 cấp, Bạch đai 1 cấp",
   },
 ];
 
@@ -137,6 +197,92 @@ const FILL_BLANKS = [
     sentence: "Đai Vovinam thắt __ vòng để biểu trưng âm dương.",
     options: ["1", "2", "3", "4"],
     answer: "2",
+  },
+  {
+    id: 5,
+    sentence: "Sáng tổ môn phái Vovinam là võ sư __.",
+    options: ["Nguyễn Lộc", "Lê Sáng", "Nguyễn Văn Chiếu", "Trần Huy Phong"],
+    answer: "Nguyễn Lộc",
+  },
+  {
+    id: 6,
+    sentence: "Cuộc biểu diễn Vovinam đầu tiên tổ chức tại __.",
+    options: ["Nhà hát Lớn Hà Nội", "Huế", "Đà Nẵng", "Cần Thơ"],
+    answer: "Nhà hát Lớn Hà Nội",
+  },
+  {
+    id: 7,
+    sentence: "Kỷ luật Việt võ đạo là kỷ luật __.",
+    options: ["tự giác", "cưỡng chế", "trừng phạt", "bắt buộc"],
+    answer: "tự giác",
+  },
+  {
+    id: 8,
+    sentence: "Đai lãnh đạo cao nhất trong môn phái là __ đai.",
+    options: ["Bạch", "Lam", "Hoàng", "Hồng"],
+    answer: "Bạch",
+  },
+  {
+    id: 9,
+    sentence: "Nghiên cứu Vovinam hoàn thành vào năm __.",
+    options: ["1938", "1939", "1912", "1960"],
+    answer: "1938",
+  },
+  {
+    id: 10,
+    sentence: "Nghiêm lễ nhấn mạnh bàn tay thép trên trái tim __.",
+    options: ["từ ái", "quyền lực", "giận dữ", "hào nhoáng"],
+    answer: "từ ái",
+  },
+];
+
+const WHEEL_BANK = [
+  ...QUIZ_BANK,
+  {
+    id: 11,
+    prompt: "Sáng tổ Nguyễn Lộc qua đời ở đâu?",
+    options: ["Sài Gòn", "Hà Nội", "Huế", "Đà Nẵng"],
+    correct: "Sài Gòn",
+  },
+  {
+    id: 12,
+    prompt: "Màu đai tượng trưng cho máu và lửa sống hào hùng là màu nào?",
+    options: ["Đỏ", "Xanh", "Vàng", "Trắng"],
+    correct: "Đỏ",
+  },
+  {
+    id: 13,
+    prompt: "Hoàng đai đệ Nhị cấp có thời gian tập khoảng bao lâu?",
+    options: ["3 năm", "2 năm", "4 năm", "6 năm"],
+    correct: "3 năm",
+  },
+  {
+    id: 14,
+    prompt: "Cụm nào đúng với nghiêm lễ Việt võ đạo?",
+    options: [
+      "Bàn tay thép, trái tim từ ái",
+      "Tấn công là trên hết",
+      "Sức mạnh không cần đạo lý",
+      "Thắng bằng mọi giá",
+    ],
+    correct: "Bàn tay thép, trái tim từ ái",
+  },
+  {
+    id: 15,
+    prompt: "Trong 4 màu đai chính, màu nào biểu trưng cho xương?",
+    options: ["Trắng", "Đỏ", "Xanh", "Vàng"],
+    correct: "Trắng",
+  },
+  {
+    id: 16,
+    prompt: "Ý nghĩa 'kỷ luật tự giác' nhấn mạnh điều gì?",
+    options: [
+      "Tự hiểu và tôn trọng kỷ luật",
+      "Chỉ nghe mệnh lệnh từ trên",
+      "Kỷ luật bằng phạt nặng",
+      "Kỷ luật chỉ dành cho huấn luyện viên",
+    ],
+    correct: "Tự hiểu và tôn trọng kỷ luật",
   },
 ];
 
@@ -166,13 +312,47 @@ const defaultProgress = {
 const shortText = (text) =>
   text.length > 70 ? `${text.slice(0, 67)}...` : text;
 
-const shuffle = (array) => {
+function shuffle(array) {
   const copy = [...array];
   for (let i = copy.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy;
+}
+
+const shuffleQuestionOptions = (question, avoidCorrectIndex = -1) => {
+  let bestOptions = shuffle(question.options);
+  let bestIndex = bestOptions.indexOf(question.correct);
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const candidate = shuffle(question.options);
+    const candidateIndex = candidate.indexOf(question.correct);
+    if (candidateIndex !== avoidCorrectIndex) {
+      return {
+        ...question,
+        options: candidate,
+        correctIndex: candidateIndex,
+      };
+    }
+    bestOptions = candidate;
+    bestIndex = candidateIndex;
+  }
+
+  return {
+    ...question,
+    options: bestOptions,
+    correctIndex: bestIndex,
+  };
+};
+
+const buildQuizQuestions = (source) => {
+  let previousCorrectIndex = -1;
+  return source.map((question) => {
+    const randomized = shuffleQuestionOptions(question, previousCorrectIndex);
+    previousCorrectIndex = randomized.correctIndex;
+    return randomized;
+  });
 };
 
 const getToday = () => new Date().toISOString().slice(0, 10);
@@ -334,6 +514,9 @@ function App() {
   }, [reviewOnly, progress.known]);
 
   const currentFlashcard = flashDeck[flashIndex % flashDeck.length];
+  const currentQuestionTip = currentFlashcard
+    ? QUESTION_TIPS[currentFlashcard.id]
+    : unlockedTip;
 
   const updateScore = (delta) => {
     setProgress((prev) => {
@@ -378,11 +561,16 @@ function App() {
   };
 
   const startQuiz = (dailyMode = false) => {
+    const selectedLevel = QUIZ_LEVEL_SETS[quizLevel] ?? QUIZ_LEVEL_SETS.lam;
+    const levelQuestions = QUIZ_BANK.filter((item) =>
+      selectedLevel.questionIds.includes(item.id),
+    );
     const source = dailyMode
       ? dailyQuestions
-      : shuffle(QUIZ_BANK).slice(0, quizLevel === "lam" ? 3 : 10);
+      : shuffle(levelQuestions).slice(0, selectedLevel.count);
+    const randomizedSource = buildQuizQuestions(source);
     setQuizSession({
-      questions: source,
+      questions: randomizedSource,
       current: 0,
       total: 0,
       answers: {},
@@ -506,7 +694,11 @@ function App() {
 
   const spinWheel = () => {
     setWheelAnswer("");
-    setWheelRound(shuffle(QUIZ_BANK)[0]);
+    const selected = shuffle(WHEEL_BANK)[0];
+    setWheelRound({
+      ...selected,
+      options: shuffle(selected.options),
+    });
   };
 
   const answerWheel = (option) => {
@@ -821,7 +1013,10 @@ function App() {
               <div className="card shadow-sm mb-3">
                 <div className="card-body">
                   <h5>Mẹo nhớ nhanh</h5>
-                  <p className="mb-0">{unlockedTip}</p>
+                  <p className="small text-muted mb-2">
+                    Mẹo cho câu {currentFlashcard.id}
+                  </p>
+                  <p className="mb-0">{currentQuestionTip}</p>
                 </div>
               </div>
               <div className="card shadow-sm mb-3">
@@ -865,8 +1060,11 @@ function App() {
                       value={quizLevel}
                       onChange={(event) => setQuizLevel(event.target.value)}
                     >
-                      <option value="lam">Lam đai (3 câu)</option>
-                      <option value="hoang">Hoàng đai (10 câu)</option>
+                      {Object.entries(QUIZ_LEVEL_SETS).map(([key, config]) => (
+                        <option key={key} value={key}>
+                          {config.label} ({config.count} câu)
+                        </option>
+                      ))}
                     </select>
                     <button
                       type="button"
@@ -909,9 +1107,15 @@ function App() {
                               </span>
                             </div>
                             <p className="mb-3">{current.prompt}</p>
-                            <div className="row g-2">
-                              {current.options.map((option) => (
-                                <div className="col-md-6" key={option}>
+                            <div
+                              className="row g-2"
+                              key={`options-${current.id}`}
+                            >
+                              {current.options.map((option, optionIndex) => (
+                                <div
+                                  className="col-md-6"
+                                  key={`${current.id}-${option}-${optionIndex}`}
+                                >
                                   <button
                                     type="button"
                                     className={`btn w-100 text-start ${
