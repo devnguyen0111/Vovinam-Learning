@@ -67,3 +67,61 @@ body {
 .white-space-preline {
   white-space: pre-line;
 }
+
+@media (max-width: 576px) {
+  .main-content {
+    padding-top: 1rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  .navbar .container {
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .mobile-nav-tabs {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mobile-nav-tabs .btn {
+    width: 100%;
+  }
+
+  .status-bar .card-body {
+    padding: 0.85rem;
+  }
+
+  .hero-actions .btn,
+  .flash-actions .btn,
+  .quiz-controls .btn,
+  .quiz-controls .form-select,
+  .action-group .btn {
+    width: 100%;
+  }
+
+  .quiz-controls {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .flashcard {
+    min-height: 180px;
+    padding: 1rem !important;
+  }
+
+  .matching-card {
+    min-height: 84px;
+    font-size: 0.8rem;
+  }
+
+  .chart-wrap {
+    min-height: 220px;
+  }
+}

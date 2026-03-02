@@ -566,7 +566,7 @@ function App() {
             <img src={logoVovinam} className="brand-logo" alt="Logo Vovinam" />
             Vovinam Quiz Master
           </span>
-          <div className="d-flex gap-2 flex-wrap">
+          <div className="d-flex gap-2 flex-wrap mobile-nav-tabs">
             {[
               { key: "home", label: "Home" },
               { key: "learn", label: "Học" },
@@ -586,10 +586,10 @@ function App() {
         </div>
       </nav>
 
-      <main className="container py-4">
+      <main className="container py-4 main-content">
         <section className="status-bar mb-4">
           <div className="row g-3">
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="card h-100">
                 <div className="card-body">
                   <p className="small text-muted mb-1">Điểm võ công</p>
@@ -597,7 +597,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="card h-100">
                 <div className="card-body">
                   <p className="small text-muted mb-1">Cấp độ hiện tại</p>
@@ -605,7 +605,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="card h-100">
                 <div className="card-body">
                   <p className="small text-muted mb-1">Đã thuộc</p>
@@ -613,7 +613,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-6 col-md-3">
               <div className="card h-100">
                 <div className="card-body">
                   <p className="small text-muted mb-1">Điểm cao nhất</p>
@@ -638,7 +638,7 @@ function App() {
                     câu hỏi trọng tâm bằng flashcard, quiz giới hạn thời gian và
                     trò chơi tương tác.
                   </p>
-                  <div className="d-flex flex-wrap gap-2 mt-4">
+                  <div className="d-flex flex-wrap gap-2 mt-4 hero-actions">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -690,7 +690,7 @@ function App() {
             <div className="col-lg-8">
               <div className="card shadow-sm">
                 <div className="card-body p-4">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                     <h3 className="mb-0">Flashcards</h3>
                     <div className="form-check form-switch">
                       <input
@@ -734,7 +734,7 @@ function App() {
                         : currentFlashcard.question}
                     </p>
                   </div>
-                  <div className="d-flex flex-wrap gap-2 mt-3">
+                  <div className="d-flex flex-wrap gap-2 mt-3 flash-actions">
                     <button
                       type="button"
                       className="btn btn-success"
@@ -788,7 +788,7 @@ function App() {
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                   <h3 className="mb-0">Quiz trắc nghiệm (30 giây/câu)</h3>
-                  <div className="d-flex align-items-center gap-2">
+                  <div className="d-flex align-items-center gap-2 quiz-controls">
                     <select
                       className="form-select"
                       value={quizLevel}
@@ -859,7 +859,7 @@ function App() {
                                 </div>
                               ))}
                             </div>
-                            <div className="mt-3 d-flex justify-content-between align-items-center">
+                            <div className="mt-3 d-flex justify-content-between align-items-center flex-column flex-sm-row gap-2">
                               <span>Điểm hiện tại: {quizSession.total}</span>
                               <button
                                 type="button"
@@ -881,7 +881,7 @@ function App() {
 
             <div className="card shadow-sm">
               <div className="card-body">
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                   <h3 className="mb-0">Matching Game</h3>
                   <button
                     type="button"
@@ -1069,7 +1069,7 @@ function App() {
                       ? "Đã hoàn thành"
                       : "Chưa hoàn thành"}
                   </p>
-                  <div className="d-flex gap-2 flex-wrap">
+                  <div className="d-flex gap-2 flex-wrap action-group">
                     <button
                       type="button"
                       className="btn btn-outline-success btn-sm"
