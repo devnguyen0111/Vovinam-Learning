@@ -1565,6 +1565,16 @@ function App() {
                     Mở camera hoặc ứng dụng ngân hàng để quét mã QR và chuyển
                     khoản nhanh.
                   </div>
+                  <div className="alert alert-info mt-3 mb-0 readable-text text-start">
+                    <strong>Source code website:</strong>{" "}
+                    <a
+                      href="https://github.com/devnguyen0111/Vovinam-Learning"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      github.com/devnguyen0111/Vovinam-Learning
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

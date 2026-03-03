@@ -1,16 +1,72 @@
-# React + Vite
+# Vovinam Learning
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Website học Vovinam - Việt Võ Đạo theo hướng **vừa học vừa chơi**, tập trung vào 10 câu hỏi trọng tâm, flashcard, quiz giới hạn thời gian và mini-game tương tác.
 
-Currently, two official plugins are available:
+## Source code
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Repository: https://github.com/devnguyen0111/Vovinam-Learning
 
-## React Compiler
+## Tính năng chính
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Flashcard lật thẻ câu hỏi/đáp án, đánh dấu đã thuộc/chưa thuộc
+- Quiz theo cấp đai (Lam, Hoàng, Hồng, Bạch) với timer mỗi câu
+- Daily Challenge nhận thưởng điểm
+- Mini game: Matching, Fill in the Blank, Wheel of Võ Công
+- Tab Q&A tra cứu toàn bộ câu hỏi và đáp án (chọn từng câu hoặc tất cả)
+- Theo dõi tiến trình: điểm, cấp độ, biểu đồ số lần ôn tập, huy hiệu
+- Hiệu ứng pháo hoa khi đánh dấu đã thuộc
 
-## Expanding the ESLint configuration
+## Công nghệ sử dụng
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19
+- Vite 7
+- Bootstrap 5
+- Chart.js + react-chartjs-2
+- ESLint
+
+## Cài đặt và chạy dự án
+
+### 1) Cài dependencies
+
+```bash
+npm install
+```
+
+### 2) Chạy môi trường development
+
+```bash
+npm run dev
+```
+
+### 3) Build production
+
+```bash
+npm run build
+```
+
+### 4) Preview bản build
+
+```bash
+npm run preview
+```
+
+## Cấu trúc thư mục chính
+
+```text
+src/
+	App.jsx
+	index.css
+	main.jsx
+assets/
+	question.json
+public/
+```
+
+## Dữ liệu câu hỏi
+
+- Bộ câu hỏi gốc được lưu tại: `assets/question.json`
+- Ứng dụng đọc và dùng dữ liệu này cho Flashcard/Q&A/Quiz.
+
+## Góp ý và đóng góp
+
+Bạn có thể tạo Issue hoặc Pull Request tại repository để đề xuất tính năng mới, báo lỗi hoặc cải tiến UX/UI.
