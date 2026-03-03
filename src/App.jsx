@@ -46,6 +46,14 @@ const QUESTION_TIPS = {
 const QUESTION_TEXT_BY_ID = Object.fromEntries(
   questions.map((item) => [item.id, item.question]),
 );
+const NAV_ITEMS = [
+  { key: "home", label: "Home" },
+  { key: "learn", label: "Học" },
+  { key: "play", label: "Chơi" },
+  { key: "qa", label: "Q&A" },
+  { key: "progress", label: "Tiến trình" },
+  { key: "support", label: "Ủng hộ" },
+];
 const FIREWORK_PARTICLE_COUNT = 26;
 
 const createFireworkParticles = (direction) =>
@@ -804,14 +812,7 @@ function App() {
             Vovinam Quiz Master
           </span>
           <div className="d-flex gap-2 flex-wrap mobile-nav-tabs">
-            {[
-              { key: "home", label: "Home" },
-              { key: "learn", label: "Học" },
-              { key: "play", label: "Chơi" },
-              { key: "qa", label: "Q&A" },
-              { key: "progress", label: "Tiến trình" },
-              { key: "support", label: "Ủng hộ" },
-            ].map((item) => (
+            {NAV_ITEMS.map((item) => (
               <button
                 key={item.key}
                 type="button"
@@ -825,7 +826,7 @@ function App() {
         </div>
       </nav>
 
-      <main className="container py-4 main-content">
+      <main className="container py-4 main-content app-main">
         {tab !== "qa" && tab !== "support" && (
           <section className="status-bar mb-4">
             <div className="row g-3">
@@ -833,7 +834,9 @@ function App() {
                 <div className="card h-100">
                   <div className="card-body">
                     <p className="small text-muted mb-1">Điểm võ công</p>
-                    <h4 className="mb-0">{progress.score}</h4>
+                    <h4 className="mb-0" aria-live="polite" aria-atomic="true">
+                      {progress.score}
+                    </h4>
                   </div>
                 </div>
               </div>
@@ -857,7 +860,9 @@ function App() {
                 <div className="card h-100">
                   <div className="card-body">
                     <p className="small text-muted mb-1">Điểm cao nhất</p>
-                    <h4 className="mb-0">{progress.bestScore}</h4>
+                    <h4 className="mb-0" aria-live="polite" aria-atomic="true">
+                      {progress.bestScore}
+                    </h4>
                   </div>
                 </div>
               </div>
@@ -874,7 +879,7 @@ function App() {
                     <h2 className="mb-3">
                       Học Vovinam - Việt Võ Đạo theo kiểu vừa học vừa chơi
                     </h2>
-                    <p>
+                    <p className="readable-text">
                       Vovinam là tên gọi quốc tế hóa của Võ Việt Nam, gồm cả
                       Việt võ thuật và Việt võ đạo. Trang này giúp bạn thuộc
                       nhanh 10 câu hỏi trọng tâm bằng flashcard, quiz giới hạn
@@ -934,7 +939,7 @@ function App() {
                 <div className="card shadow-sm h-100">
                   <div className="card-body">
                     <h4 className="mb-3">Hướng dẫn học nhanh</h4>
-                    <ol className="mb-0 guide-list">
+                    <ol className="mb-0 guide-list readable-content">
                       <li>
                         Vào tab Học, lật thẻ để đọc câu hỏi và tự trả lời trước
                         khi xem đáp án.
@@ -959,7 +964,7 @@ function App() {
                 <div className="card shadow-sm h-100">
                   <div className="card-body">
                     <h4 className="mb-3">Hướng dẫn sử dụng tính năng</h4>
-                    <ul className="mb-0 guide-list">
+                    <ul className="mb-0 guide-list readable-content">
                       <li>
                         <strong>Flashcard:</strong> Click vào thẻ để lật, bật
                         chế độ chỉ ôn câu chưa thuộc khi cần.
@@ -1152,7 +1157,12 @@ function App() {
                                 Câu {quizSession.current + 1}/
                                 {quizSession.questions.length}
                               </strong>
-                              <span className="badge text-bg-dark">
+                              <span
+                                className="badge text-bg-dark"
+                                role="status"
+                                aria-live="polite"
+                                aria-atomic="true"
+                              >
                                 ⏱ {quizTimer}s
                               </span>
                             </div>
@@ -1185,7 +1195,13 @@ function App() {
                               ))}
                             </div>
                             <div className="mt-3 d-flex justify-content-between align-items-center flex-column flex-sm-row gap-2">
-                              <span>Điểm hiện tại: {quizSession.total}</span>
+                              <span
+                                role="status"
+                                aria-live="polite"
+                                aria-atomic="true"
+                              >
+                                Điểm hiện tại: {quizSession.total}
+                              </span>
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-dark"
@@ -1424,7 +1440,7 @@ function App() {
                   <div className="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
                     <div>
                       <h3 className="mb-2">Ngân hàng câu hỏi Vovinam</h3>
-                      <p className="text-muted mb-0">
+                      <p className="text-muted mb-0 readable-text">
                         Tổng hợp đầy đủ câu hỏi và đáp án để ôn tập nhanh, rõ
                         ràng, dễ tra cứu.
                       </p>
@@ -1508,12 +1524,14 @@ function App() {
                       </div>
 
                       <div className="qa-question-block mb-3">
-                        <p className="mb-0 fw-semibold">{item.question}</p>
+                        <p className="mb-0 fw-semibold readable-text">
+                          {item.question}
+                        </p>
                       </div>
 
                       <div className="qa-answer-block">
                         <p className="mb-1 text-muted small">Đáp án</p>
-                        <p className="mb-0 white-space-preline">
+                        <p className="mb-0 white-space-preline readable-text">
                           {item.answer}
                         </p>
                       </div>
@@ -1553,6 +1571,20 @@ function App() {
           </section>
         )}
       </main>
+
+      <nav className="mobile-bottom-nav" aria-label="Điều hướng nhanh">
+        {NAV_ITEMS.map((item) => (
+          <button
+            key={`bottom-${item.key}`}
+            type="button"
+            className={`btn mobile-bottom-nav-btn ${tab === item.key ? "is-active" : ""}`}
+            onClick={() => setTab(item.key)}
+            aria-current={tab === item.key ? "page" : undefined}
+          >
+            {item.label}
+          </button>
+        ))}
+      </nav>
 
       <div className="fireworks-layer" aria-hidden="true">
         {fireworkBursts.map((burst) => (
