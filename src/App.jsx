@@ -46,6 +46,28 @@ const QUESTION_TIPS = {
 const QUESTION_TEXT_BY_ID = Object.fromEntries(
   questions.map((item) => [item.id, item.question]),
 );
+const FIREWORK_PARTICLE_COUNT = 26;
+
+const createFireworkParticles = (direction) =>
+  Array.from({ length: FIREWORK_PARTICLE_COUNT }, (_, index) => {
+    const distance = 36 + Math.random() * 140;
+    const spread = Math.random() * 0.95;
+    const xSign = direction === "left" ? 1 : -1;
+    const offsetX = xSign * (18 + distance * spread);
+    const offsetY = -(48 + distance * (1 - spread * 0.3));
+    const size = 4 + Math.random() * 5;
+    const hue = (index * 23 + Math.random() * 55) % 360;
+
+    return {
+      id: `${direction}-${index}-${Math.random()}`,
+      x: `${offsetX.toFixed(2)}px`,
+      y: `${offsetY.toFixed(2)}px`,
+      size: `${size.toFixed(2)}px`,
+      color: `hsl(${hue.toFixed(0)}, 100%, 60%)`,
+      delay: `${(Math.random() * 0.09).toFixed(3)}s`,
+      duration: `${(1 + Math.random() * 0.35).toFixed(2)}s`,
+    };
+  });
 
 const QUIZ_LEVEL_SETS = {
   lam: { label: "Lam đai", questionIds: [1, 2, 3], count: 3 },
@@ -448,6 +470,8 @@ function App() {
 
   const [wheelRound, setWheelRound] = useState(null);
   const [wheelAnswer, setWheelAnswer] = useState("");
+  const [qaSelection, setQaSelection] = useState("all");
+  const [fireworkBursts, setFireworkBursts] = useState([]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
@@ -518,6 +542,12 @@ function App() {
     ? QUESTION_TIPS[currentFlashcard.id]
     : unlockedTip;
 
+  const qaItems = useMemo(() => {
+    if (qaSelection === "all") return questions;
+    const selectedId = Number(qaSelection);
+    return questions.filter((item) => item.id === selectedId);
+  }, [qaSelection]);
+
   const updateScore = (delta) => {
     setProgress((prev) => {
       const score = Math.max(0, prev.score + delta);
@@ -539,6 +569,19 @@ function App() {
     }));
   };
 
+  const triggerFireworks = () => {
+    const burstId = `${Date.now()}-${Math.random()}`;
+    const burst = {
+      id: burstId,
+      leftParticles: createFireworkParticles("left"),
+      rightParticles: createFireworkParticles("right"),
+    };
+    setFireworkBursts((prev) => [...prev, burst]);
+    window.setTimeout(() => {
+      setFireworkBursts((prev) => prev.filter((item) => item.id !== burstId));
+    }, 1500);
+  };
+
   const markCard = (known) => {
     setProgress((prev) => ({
       ...prev,
@@ -551,6 +594,7 @@ function App() {
     if (known) {
       updateScore(3);
       safeBeep("correct");
+      triggerFireworks();
     }
     nextFlashcard();
   };
@@ -764,6 +808,7 @@ function App() {
               { key: "home", label: "Home" },
               { key: "learn", label: "Học" },
               { key: "play", label: "Chơi" },
+              { key: "qa", label: "Q&A" },
               { key: "progress", label: "Tiến trình" },
               { key: "support", label: "Ủng hộ" },
             ].map((item) => (
@@ -781,42 +826,44 @@ function App() {
       </nav>
 
       <main className="container py-4 main-content">
-        <section className="status-bar mb-4">
-          <div className="row g-3">
-            <div className="col-6 col-md-3">
-              <div className="card h-100">
-                <div className="card-body">
-                  <p className="small text-muted mb-1">Điểm võ công</p>
-                  <h4 className="mb-0">{progress.score}</h4>
+        {tab !== "qa" && tab !== "support" && (
+          <section className="status-bar mb-4">
+            <div className="row g-3">
+              <div className="col-6 col-md-3">
+                <div className="card h-100">
+                  <div className="card-body">
+                    <p className="small text-muted mb-1">Điểm võ công</p>
+                    <h4 className="mb-0">{progress.score}</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-md-3">
+                <div className="card h-100">
+                  <div className="card-body">
+                    <p className="small text-muted mb-1">Cấp độ hiện tại</p>
+                    <h4 className="mb-0">{currentLevel.label}</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-md-3">
+                <div className="card h-100">
+                  <div className="card-body">
+                    <p className="small text-muted mb-1">Đã thuộc</p>
+                    <h4 className="mb-0">{masteredCount}/10</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-md-3">
+                <div className="card h-100">
+                  <div className="card-body">
+                    <p className="small text-muted mb-1">Điểm cao nhất</p>
+                    <h4 className="mb-0">{progress.bestScore}</h4>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-6 col-md-3">
-              <div className="card h-100">
-                <div className="card-body">
-                  <p className="small text-muted mb-1">Cấp độ hiện tại</p>
-                  <h4 className="mb-0">{currentLevel.label}</h4>
-                </div>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="card h-100">
-                <div className="card-body">
-                  <p className="small text-muted mb-1">Đã thuộc</p>
-                  <h4 className="mb-0">{masteredCount}/10</h4>
-                </div>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="card h-100">
-                <div className="card-body">
-                  <p className="small text-muted mb-1">Điểm cao nhất</p>
-                  <h4 className="mb-0">{progress.bestScore}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {tab === "home" && (
           <>
@@ -870,7 +917,10 @@ function App() {
                     <button
                       type="button"
                       className="btn btn-success btn-sm"
-                      onClick={() => startQuiz(true)}
+                      onClick={() => {
+                        setTab("play");
+                        startQuiz(true);
+                      }}
                     >
                       Bắt đầu Daily Challenge
                     </button>
@@ -1366,6 +1416,115 @@ function App() {
           </section>
         )}
 
+        {tab === "qa" && (
+          <section className="row justify-content-center">
+            <div className="col-xl-10">
+              <div className="card shadow-sm mb-4 qa-hero-card">
+                <div className="card-body p-4">
+                  <div className="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
+                    <div>
+                      <h3 className="mb-2">Ngân hàng câu hỏi Vovinam</h3>
+                      <p className="text-muted mb-0">
+                        Tổng hợp đầy đủ câu hỏi và đáp án để ôn tập nhanh, rõ
+                        ràng, dễ tra cứu.
+                      </p>
+                    </div>
+                    <span className="badge text-bg-primary fs-6 px-3 py-2">
+                      {qaItems.length}/{questions.length} câu đang hiển thị
+                    </span>
+                  </div>
+                  <div className="d-flex flex-wrap gap-2 qa-meta-chips">
+                    <span className="badge rounded-pill text-bg-light border">
+                      Có đáp án chi tiết
+                    </span>
+                    <span className="badge rounded-pill text-bg-light border">
+                      Phù hợp ôn thi đai
+                    </span>
+                    <span className="badge rounded-pill text-bg-light border">
+                      Nội dung chuẩn hóa
+                    </span>
+                  </div>
+
+                  <div className="row g-2 align-items-end mt-2 qa-filter-row">
+                    <div className="col-md-5">
+                      <label className="form-label small text-muted mb-1">
+                        Loại hiển thị
+                      </label>
+                      <select
+                        className="form-select qa-select"
+                        value={qaSelection}
+                        onChange={(event) => setQaSelection(event.target.value)}
+                      >
+                        <option value="all">Hiển thị tất cả câu hỏi</option>
+                        {questions.map((item) => (
+                          <option key={item.id} value={String(item.id)}>
+                            Câu {item.id}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-md-7">
+                      <label className="form-label small text-muted mb-1">
+                        Chọn nhanh
+                      </label>
+                      <div className="d-flex flex-wrap gap-2 qa-quick-picker">
+                        <button
+                          type="button"
+                          className={`btn btn-sm ${qaSelection === "all" ? "btn-primary" : "btn-outline-primary"}`}
+                          onClick={() => setQaSelection("all")}
+                        >
+                          Tất cả
+                        </button>
+                        {questions.map((item) => (
+                          <button
+                            key={`qa-${item.id}`}
+                            type="button"
+                            className={`btn btn-sm ${qaSelection === String(item.id) ? "btn-primary" : "btn-outline-primary"}`}
+                            onClick={() => setQaSelection(String(item.id))}
+                          >
+                            {item.id}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="d-grid gap-3 qa-list-wrap">
+                {qaItems.map((item) => (
+                  <article
+                    key={item.id}
+                    className="card shadow-sm qa-item-card"
+                  >
+                    <div className="card-body p-4">
+                      <div className="d-flex align-items-center gap-2 mb-3">
+                        <span className="badge text-bg-primary qa-number-badge">
+                          Câu {item.id}
+                        </span>
+                        <span className="text-muted small">
+                          Hỏi đáp kiến thức
+                        </span>
+                      </div>
+
+                      <div className="qa-question-block mb-3">
+                        <p className="mb-0 fw-semibold">{item.question}</p>
+                      </div>
+
+                      <div className="qa-answer-block">
+                        <p className="mb-1 text-muted small">Đáp án</p>
+                        <p className="mb-0 white-space-preline">
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {tab === "support" && (
           <section className="row justify-content-center">
             <div className="col-lg-8">
@@ -1394,6 +1553,45 @@ function App() {
           </section>
         )}
       </main>
+
+      <div className="fireworks-layer" aria-hidden="true">
+        {fireworkBursts.map((burst) => (
+          <div key={burst.id} className="fireworks-instance">
+            <div className="firework-corner firework-corner-left">
+              {burst.leftParticles.map((particle) => (
+                <span
+                  key={particle.id}
+                  className="firework-particle"
+                  style={{
+                    "--x": particle.x,
+                    "--y": particle.y,
+                    "--size": particle.size,
+                    "--delay": particle.delay,
+                    "--duration": particle.duration,
+                    backgroundColor: particle.color,
+                  }}
+                />
+              ))}
+            </div>
+            <div className="firework-corner firework-corner-right">
+              {burst.rightParticles.map((particle) => (
+                <span
+                  key={particle.id}
+                  className="firework-particle"
+                  style={{
+                    "--x": particle.x,
+                    "--y": particle.y,
+                    "--size": particle.size,
+                    "--delay": particle.delay,
+                    "--duration": particle.duration,
+                    backgroundColor: particle.color,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
