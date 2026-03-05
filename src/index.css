@@ -220,6 +220,65 @@ select:focus-visible,
   background: var(--color-surface);
 }
 
+.qa-answer-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.qa-answer-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.qa-answer-dot {
+  width: 0.52rem;
+  height: 0.52rem;
+  margin-top: 0.38rem;
+  background: #1f5fbf;
+  flex-shrink: 0;
+}
+
+.qa-answer-text {
+  margin: 0;
+  line-height: var(--line-loose);
+  text-align: left;
+}
+
+.qa-level-0 .qa-answer-dot {
+  border-radius: 50%;
+  background: #1f5fbf;
+}
+
+.qa-level-1 {
+  padding-left: 0.95rem;
+}
+
+.qa-level-1 .qa-answer-dot {
+  border-radius: 2px;
+  background: #d4a017;
+}
+
+.qa-level-2 {
+  padding-left: 1.7rem;
+}
+
+.qa-level-2 .qa-answer-dot {
+  border-radius: 1px;
+  background: #c13535;
+  transform: rotate(45deg);
+}
+
+.qa-level-3 {
+  padding-left: 2.5rem;
+}
+
+.qa-level-3 .qa-answer-dot {
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #7b8798;
+}
+
 .mobile-bottom-nav {
   display: none;
 }

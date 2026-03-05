@@ -46,6 +46,41 @@ const QUESTION_TIPS = {
 const QUESTION_TEXT_BY_ID = Object.fromEntries(
   questions.map((item) => [item.id, item.question]),
 );
+
+const parseQaAnswerLines = (answer) =>
+  answer
+    .split("\n")
+    .map((rawLine) => {
+      const leadingSpaces = rawLine.match(/^\s*/)?.[0].length ?? 0;
+      const trimmedLine = rawLine.trim();
+
+      if (!trimmedLine) {
+        return null;
+      }
+
+      const markerMatch = trimmedLine.match(/^([+-])\s*(.*)$/);
+
+      if (!markerMatch) {
+        return {
+          text: trimmedLine,
+          level: Math.min(3, Math.floor(leadingSpaces / 6)),
+          bullet: false,
+        };
+      }
+
+      const marker = markerMatch[1];
+      const content = markerMatch[2].trim();
+      const markerBaseLevel = marker === "+" ? 1 : 0;
+      const extraLevel = Math.min(2, Math.floor(leadingSpaces / 4));
+
+      return {
+        text: content || trimmedLine,
+        level: Math.min(3, markerBaseLevel + extraLevel),
+        bullet: true,
+      };
+    })
+    .filter(Boolean);
+
 const NAV_ITEMS = [
   { key: "home", label: "Home" },
   { key: "learn", label: "Học" },
@@ -1508,36 +1543,53 @@ function App() {
               </div>
 
               <div className="d-grid gap-3 qa-list-wrap">
-                {qaItems.map((item) => (
-                  <article
-                    key={item.id}
-                    className="card shadow-sm qa-item-card"
-                  >
-                    <div className="card-body p-4">
-                      <div className="d-flex align-items-center gap-2 mb-3">
-                        <span className="badge text-bg-primary qa-number-badge">
-                          Câu {item.id}
-                        </span>
-                        <span className="text-muted small">
-                          Hỏi đáp kiến thức
-                        </span>
-                      </div>
+                {qaItems.map((item) => {
+                  const answerLines = parseQaAnswerLines(item.answer);
 
-                      <div className="qa-question-block mb-3">
-                        <p className="mb-0 fw-semibold readable-text">
-                          {item.question}
-                        </p>
-                      </div>
+                  return (
+                    <article
+                      key={item.id}
+                      className="card shadow-sm qa-item-card"
+                    >
+                      <div className="card-body p-4">
+                        <div className="d-flex align-items-center gap-2 mb-3">
+                          <span className="badge text-bg-primary qa-number-badge">
+                            Câu {item.id}
+                          </span>
+                          <span className="text-muted small">
+                            Hỏi đáp kiến thức
+                          </span>
+                        </div>
 
-                      <div className="qa-answer-block">
-                        <p className="mb-1 text-muted small">Đáp án</p>
-                        <p className="mb-0 white-space-preline readable-text">
-                          {item.answer}
-                        </p>
+                        <div className="qa-question-block mb-3">
+                          <p className="mb-0 fw-semibold readable-text">
+                            {item.question}
+                          </p>
+                        </div>
+
+                        <div className="qa-answer-block">
+                          <p className="mb-1 text-muted small">Đáp án</p>
+                          <div className="qa-answer-list readable-text">
+                            {answerLines.map((line, index) => (
+                              <div
+                                key={`${item.id}-line-${index}`}
+                                className={`qa-answer-line qa-level-${line.level}`}
+                              >
+                                {line.bullet && (
+                                  <span
+                                    className="qa-answer-dot"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                                <p className="qa-answer-text">{line.text}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                ))}
+                    </article>
+                  );
+                })}
               </div>
             </div>
           </section>
